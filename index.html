@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>華邦鬼牌 v4.0 教學與殘局修正版</title>
+<style>
+:root{--bg:#04100c;--table:#0b5d3d;--table2:#073425;--gold:#e8c96f;--gold2:#9d8140;--text:#fff2bd;--muted:#ddcfa1;--red:#d83030;--card:#fffdf0;--danger:#ff8080}
+*{box-sizing:border-box}body{margin:0;background:#010806;color:var(--text);font-family:"Microsoft JhengHei",system-ui,sans-serif;overflow:hidden}#game{width:1920px;height:1080px;margin:0 auto;position:relative;background:radial-gradient(circle at center,#136b47 0,#05271d 72%,#010806 100%);transform-origin:top left}.header{height:78px;display:flex;align-items:center;justify-content:center;background:linear-gradient(#124a36,#061f18);border-bottom:3px solid rgba(232,201,111,.55)}.title{font-size:40px;font-weight:900;letter-spacing:8px;text-shadow:0 4px 6px #000}.toolbar{position:absolute;left:35px;right:35px;top:90px;height:64px;border:2px solid var(--gold2);border-radius:18px;background:rgba(3,28,21,.94);display:flex;align-items:center;justify-content:center;gap:16px;z-index:20}select,button{height:44px;border-radius:10px;border:2px solid var(--gold);background:#271305;color:#fff3bd;font-weight:900;font-size:20px;padding:0 18px;box-shadow:0 2px 0 #000}button{cursor:pointer}button:hover{filter:brightness(1.15)}button:disabled{opacity:.45}.speed{font-size:18px;font-weight:900;display:flex;gap:8px;align-items:center}.speed input{width:150px}.table{position:absolute;left:35px;right:35px;top:170px;bottom:130px;border:8px solid rgba(232,201,111,.72);border-radius:48px;background:radial-gradient(circle at center,var(--table) 0,var(--table2) 74%);box-shadow:inset 0 0 70px rgba(0,0,0,.58)}.tableInner{position:absolute;inset:22px;border:3px dashed rgba(255,255,255,.15);border-radius:38px}.centerArea{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:520px;min-height:150px;border:3px solid rgba(255,255,255,.16);border-radius:28px;background:rgba(0,0,0,.17);padding:24px;text-align:center}.phase{font-size:42px;font-weight:900;color:#ffe27e;text-shadow:0 3px 5px #000}.subtitle{font-size:22px;color:#e5d9a8;margin:12px 0 0}.playerSpot{position:absolute;z-index:5;border:2px solid rgba(232,201,111,.38);border-radius:19px;background:rgba(0,24,18,.76);padding:10px 12px;box-shadow:0 3px 16px #0008;transition:.18s}.playerSpot.active{z-index:12;outline:4px solid #80ff9c;background:rgba(0,48,30,.88)}.playerSpot.safe{opacity:.48}.playerSpot.lost{filter:grayscale(.8);opacity:.65}.playerSpot.drawTarget{z-index:18;animation:targetFlash .6s infinite}.playerSpot.selfTurn{animation:selfFlash .8s infinite}@keyframes targetFlash{50%{outline:6px solid #ffe27e;box-shadow:0 0 35px #ffe27e}}@keyframes selfFlash{50%{outline:5px solid #80ff9c;box-shadow:0 0 32px #80ff9c}}.pName{font-size:22px;font-weight:900;color:#ffe27e;display:flex;justify-content:space-between}.pInfo{font-size:17px;color:#e8ddb4;margin:4px 0 8px}.hand{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:center}.p-bottom{left:610px;right:610px;bottom:18px;height:150px}.p-top{left:650px;right:650px;top:15px;height:130px}.p-left{left:55px;top:300px;width:285px;height:190px}.p-right{right:55px;top:300px;width:285px;height:190px}.p-upperLeft{left:100px;top:68px;width:300px;height:150px}.p-upperRight{right:100px;top:68px;width:300px;height:150px}.p-lowerLeft{left:100px;bottom:22px;width:300px;height:150px}.p-lowerRight{right:100px;bottom:22px;width:300px;height:150px}.p-midLeft{left:45px;top:505px;width:285px;height:190px}.p-midRight{right:45px;top:505px;width:285px;height:190px}.card{width:78px;height:112px;background:var(--card);border:2px solid #ddd;border-radius:10px;box-shadow:0 4px 8px #0008;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:8px;font-size:27px;font-weight:900;color:#111;user-select:none;position:relative}.card.red{color:var(--red)}.card.jokerRed{background:linear-gradient(#fffaf2,#ffe5e5);color:#bd1212;border-color:#ff9a9a}.card.jokerBlack{background:linear-gradient(#fffaf2,#dedede);color:#101010;border-color:#555}.card .rank{align-self:flex-start}.card .suit{font-size:34px}.card .ghostFace{font-size:48px;line-height:1}.card .tag{position:absolute;right:5px;bottom:5px;background:#0b3729;color:#ffe27e;border-radius:8px;padding:1px 7px;font-size:13px}.miniBack{width:44px;height:64px;border:2px solid #e8d698;border-radius:8px;background:repeating-linear-gradient(45deg,#681010 0 10px,#c8812d 10px 16px);box-shadow:0 3px 7px #0008;position:relative}.miniBack::after{content:"";position:absolute;inset:7px;border:1px solid rgba(255,255,255,.45);border-radius:5px}.miniBack.clickable{cursor:pointer;transition:.12s;animation:cardFlash .65s infinite}.miniBack.clickable:hover{transform:translateY(-10px);outline:4px solid #ffe27e}@keyframes cardFlash{50%{filter:brightness(1.75);box-shadow:0 0 18px #ffe27e}}.message{position:absolute;left:50%;top:164px;transform:translateX(-50%);background:rgba(0,0,0,.65);border:2px solid rgba(232,201,111,.62);border-radius:20px;padding:12px 28px;font-size:24px;font-weight:900;z-index:25;min-width:420px;text-align:center}.bottomPanel{position:absolute;left:35px;right:35px;bottom:18px;height:96px;border:2px solid rgba(232,201,111,.55);border-radius:18px;background:rgba(3,28,21,.94);padding:12px 18px}.log{height:70px;overflow:auto;font-size:17px;line-height:1.35;padding-right:8px}.log div{padding:3px 0;border-bottom:1px dashed rgba(255,255,255,.11)}.log .hot{color:#ffdf63;font-weight:900}.log .danger{color:#ff9999;font-weight:900}.log .blue{color:#93ddff}.modal,.choice{position:absolute;inset:0;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;z-index:70}.modal.show,.choice.show{display:flex}.box{width:900px;max-height:830px;overflow:auto;background:#061f18;border:4px solid var(--gold);border-radius:24px;padding:28px;box-shadow:0 0 42px #000}.box h1{margin-top:0;color:#ffe27e}.targetGrid{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:18px}.target{padding:14px;border:3px solid rgba(232,201,111,.55);border-radius:16px;background:rgba(255,255,255,.06);cursor:pointer;min-width:150px;text-align:center;font-size:21px;font-weight:900}.target:hover{transform:translateY(-6px);border-color:#fff08a}.note{color:#d8c994;font-size:19px;line-height:1.55}.win{color:#8dff9d;font-weight:900}.lose{color:#ff9999;font-weight:900}.clownFx{position:absolute;z-index:9998;pointer-events:none;display:flex;gap:18px;align-items:center;justify-content:center;transform:translate(-50%,-50%);animation:clownLaugh 2s ease-out forwards}.clownFx .face{font-size:78px;filter:drop-shadow(0 0 14px #000)}.clownFx .txt{font-size:24px;font-weight:900;color:#ffe27e;text-shadow:0 3px 5px #000;background:rgba(0,0,0,.48);border:2px solid rgba(232,201,111,.5);border-radius:14px;padding:8px 12px}@keyframes clownLaugh{0%{opacity:0;transform:translate(-50%,-50%) scale(.6) rotate(-6deg)}15%{opacity:1;transform:translate(-50%,-50%) scale(1.05) rotate(5deg)}65%{opacity:1;transform:translate(-50%,-58%) scale(1) rotate(-3deg)}100%{opacity:0;transform:translate(-50%,-90%) scale(.95) rotate(0)}}
+
+.helpBtn{position:absolute;right:32px;top:16px;width:52px;height:52px;border-radius:50%;font-size:30px;z-index:50;padding:0}.helpText{font-size:22px;line-height:1.72;color:#eadcab}.helpText h2{color:#ffe27e;margin:18px 0 6px}.helpText ul{margin-top:4px}.helpText .source{margin-top:22px;padding:14px;border:1px solid rgba(232,201,111,.45);border-radius:14px;background:rgba(255,255,255,.05);font-weight:900;color:#ffe27e}.discardArea{margin-top:18px;border-top:1px solid rgba(232,201,111,.35);padding-top:12px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-height:100px;overflow:auto}.discardTitle{width:100%;font-size:18px;color:#ffe27e;font-weight:900;margin-bottom:2px}.discardCard{border:1px solid rgba(232,201,111,.55);border-radius:9px;background:rgba(255,255,255,.08);padding:4px 8px;font-size:18px;font-weight:900;color:#fff3bd}#fxLayer{position:absolute;inset:0;pointer-events:none;z-index:9999}.fx{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:94px;font-weight:900;color:#ffe27e;text-shadow:0 0 24px #000,0 0 16px #a20;background:rgba(0,0,0,.28);animation:fxPop .2s ease-out forwards}@keyframes fxPop{0%{transform:scale(.82);opacity:0}100%{transform:scale(1);opacity:1}}
+
+</style>
+</head>
+<body><div id="game">
+ <div class="header"><div class="title">華邦鬼牌・最終明暗決鬥版</div><button class="helpBtn" id="helpBtn" title="規則教學">?</button></div>
+ <div class="toolbar"><label>人數 <select id="playerCount"><option value="4" selected>4人</option><option value="5">5人</option><option value="6">6人</option><option value="7">7人</option></select></label><button id="newBtn">新局開始</button><button id="autoBtn">AI快轉到我方</button><button id="endBtn">自動跑到結束</button><button id="pitBtn">測試政治坑殺殘局</button><label class="speed">AI思考 <input id="speed" type="range" min="700" max="2600" value="1500" step="100"><span id="speedTxt">1.5秒</span></label></div>
+ <div class="table"><div class="tableInner"></div><div id="spots"></div><div class="centerArea"><div class="phase" id="phaseText">正常階段</div><div class="subtitle" id="centerSub">鬼牌位置匿名，雙鬼入手立刻分送。</div><div class="discardArea" id="discardArea"><div class="discardTitle">棄牌區</div></div></div><div class="message" id="message">按「新局開始」。</div></div>
+ <div class="bottomPanel"><div class="log" id="log"></div></div>
+ <div class="choice" id="choice"><div class="box"><h1 id="choiceTitle">選擇</h1><div id="choiceBody"></div></div></div>
+ <div class="modal" id="modal"><div class="box"><h1>勝負結算</h1><div id="result"></div><br><button onclick="closeModal()">關閉</button><button onclick="newGame()">再來一局</button></div></div>
+ <div class="modal" id="helpModal"><div class="box"><h1>遊戲教學</h1><div class="helpText">
+  <h2>一、【正常階段】</h2>
+  <b>1. 抽牌輪流進行：</b>
+  <ul><li>玩家按順序從上一位玩家手中隨機抽取一張牌。</li><li>配對成功的牌（同數字）需立即捨棄。</li></ul>
+  <b>2. 雙鬼牌規則：</b>
+  <ul><li>如果玩家手中同時擁有兩張鬼牌，必須選擇以下兩種方式之一：</li><li>（1）分送鬼牌：將兩張鬼牌分別遞給兩位不同的玩家。</li><li>（2）保留一張：只分送一張自選的鬼牌給其他玩家，並保留另一張鬼牌於自己手牌。</li></ul>
+  <h2>二、【死鬥階段】</h2>
+  <b>1. 條件觸發：</b>
+  <ul><li>當場上僅剩兩名玩家各有鬼牌時，遊戲進入死鬥階段。</li></ul>
+  <b>2. 刪除正常階段規則：</b>
+  <ul><li>刪除正常階段的《雙鬼牌規則》。</li></ul>
+  <h2>三、最終勝負</h2>
+  <ul><li>同時擁有兩張鬼牌者，自動視為敗方，遊戲即刻結束。</li><li>若雙方各剩一張鬼牌時則進行明牌動作，擁有明鬼牌者則視為敗方。</li></ul>
+  <div class="source">本遊戲規則取自小說《天空界限》的鬼牌變體。</div>
+ </div><br><button onclick="closeHelp()">關閉</button></div></div>
+ <div id="fxLayer"></div>
+</div>
+<script>
+const suits=[['heart','♥',true],['diamond','♦',true],['spade','♠',false],['club','♣',false]],ranks=['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
+let state=null,busy=false,aiDelay=1500,autoEnding=false;const $=id=>document.getElementById(id);function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
+$('newBtn').onclick=newGame;$('autoBtn').onclick=()=>runUntilHuman();$('endBtn').onclick=()=>autoEnd();$('pitBtn').onclick=()=>testPoliticalPit();$('helpBtn').onclick=()=>openHelp();$('speed').oninput=e=>{aiDelay=+e.target.value;$('speedTxt').textContent=(aiDelay/1000).toFixed(1)+'秒'};
+function makeDeck(){let d=[];for(const [s,m,red] of suits)for(const r of ranks)d.push({suit:s,mark:m,red,rank:r,id:s+'_'+r});d.push({joker:true,jokerType:'red',rank:'明鬼',red:true,id:'joker_red'});d.push({joker:true,jokerType:'black',rank:'暗鬼',red:false,id:'joker_black'});return shuffle(d)}
+function normalCard(suit,rank){let src=suits.find(x=>x[0]===suit);return {suit:src[0],mark:src[1],red:src[2],rank,id:suit+'_'+rank+'_'+Math.random().toString(36).slice(2)}}
+function jokerCard(type){return {joker:true,jokerType:type,rank:type==='red'?'明鬼':'暗鬼',red:type==='red',id:'joker_'+type+'_'+Math.random().toString(36).slice(2)}}
+function cardText(c){if(c.joker)return c.jokerType==='red'?'🤡明鬼':'🤡暗鬼';return `${c.rank}${c.mark}`}
+
+function shuffle(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+
+async function testPoliticalPit(){
+ // 政治坑殺殘局：唯一三人局。兩張鬼牌都在玩家手上，AI1 與 AI2 只有普通牌。
+ let players=[
+  {name:'你',hand:[jokerCard('red'),jokerCard('black')],discarded:[],safe:false,lost:false},
+  {name:'AI1',hand:[normalCard('spade','7')],discarded:[],safe:false,lost:false},
+  {name:'AI2',hand:[normalCard('club','Q')],discarded:[],safe:false,lost:false}
+ ];
+ state={players,turn:0,phase:'normal',ended:false,waiting:false,discardedPairs:[],pendingPit:null,lastDraw:null};
+ autoEnding=false;busy=false;clearLog();closeChoice();$('modal').classList.remove('show');$('helpModal').classList.remove('show');
+ log('政治坑殺測試殘局。','hot');
+ render();
+ await processState('政治坑殺測試');
+}
+async function newGame(){let n=+$('playerCount').value;let deck=makeDeck();let players=[];for(let i=0;i<n;i++)players.push({name:i===0?'你':'AI'+i,hand:[],discarded:[],safe:false,lost:false});let idx=0;while(deck.length){players[idx%n].hand.push(deck.pop());idx++}state={players,turn:0,phase:'normal',ended:false,waiting:false,discardedPairs:[],pendingPit:null,lastDraw:null};clearLog();closeChoice();$('modal').classList.remove('show');$('helpModal').classList.remove('show');log(`新局開始：${n}人局。`,'hot');players.forEach(p=>discardPairs(p,true));render();await processState('開局')}
+function discardPairs(p,opening=false){let groups={};p.hand.forEach(c=>{if(!c.joker)(groups[c.rank]??=[]).push(c)});let changed=false;for(const r in groups){while(groups[r].length>=2){let a=groups[r].pop(),b=groups[r].pop();removeCard(p,a);removeCard(p,b);p.discarded.push(a,b);state.discardedPairs.push(cardText(a)+cardText(b));changed=true}}return changed}
+function removeCard(p,c){let i=p.hand.indexOf(c);if(i>=0)p.hand.splice(i,1)}
+function cardText(c){return `${c.rank}${c.mark||''}`}
+function activePlayers(){return state.players.filter(p=>!p.safe&&!p.lost&&p.hand.length>0)}function jokerCards(p){return p.hand.filter(c=>c.joker)}
+function nextAliveFrom(i,dir=1){let n=state.players.length;for(let k=1;k<=n;k++){let j=(i+dir*k+n)%n;if(!state.players[j].safe&&!state.players[j].lost&&state.players[j].hand.length>0)return j}return -1}
+function markSafePlayers(){state.players.forEach(p=>{if(!p.lost&&!p.safe&&p.hand.length===0){p.safe=true;log(`${p.name} 手牌清空，安全下莊。`,'hot')}})}
+async function showFX(text,time=500){let layer=$('fxLayer');if(!layer)return;let div=document.createElement('div');div.className='fx';div.textContent=text;layer.appendChild(div);await sleep(time);div.remove()}
+async function processState(reason=''){
+ if(!state||state.ended)return;
+ markSafePlayers();
+ let alive=activePlayers();
+ if(alive.length<=1){
+  let loser=state.players.find(p=>!p.safe&&!p.lost&&jokerCards(p).length>0)||alive[0];
+  return endGame(loser,'最後持鬼者敗');
+ }
+ if(alive.length===2&&state.phase!=='duel'){
+  state.phase='duel';
+  log('決鬥模式開始','danger');
+  render();
+  await showFX('⚔️ 決鬥模式 ⚔️',300);
+ }
+ render();
+ let doubleHolder=state.players.find(p=>!p.safe&&!p.lost&&jokerCards(p).length===2);
+ if(doubleHolder){
+  if(state.phase==='duel'){
+   await showFX('☠️ 雙鬼纏身 ☠️',1000);
+   if(state.pendingPit&&state.pendingPit.victim===doubleHolder&&state.lastDraw&&state.lastDraw.drawer===doubleHolder&&state.lastDraw.target===state.pendingPit.setter&&state.lastDraw.card&&state.lastDraw.card.joker){
+    await showFX('🎭 政治坑殺 🎭',2000);
+    log('政治坑殺成立。','danger');
+    state.pendingPit=null;
+   }
+   return endGame(doubleHolder,'雙鬼纏身');
+  }
+  await handleDoubleJoker(doubleHolder);
+  return;
+ }
+ if(state.phase==='duel'){
+  let finalLoser=checkFinalJokerDuel();
+  if(finalLoser){
+   await showFX('明鬼敗北',1000);
+   return endGame(finalLoser,'最終明暗對決：明鬼牌敗北，暗鬼牌勝利');
+  }
+ }
+ advanceTurnIfNeeded();
+ render();
+ if(state.turn!==0&&!autoEnding)runUntilHuman();
+}
+
+function checkFinalJokerDuel(){
+ let alive=activePlayers();
+ if(state.phase!=='duel'||alive.length!==2)return null;
+ let bothOnlyOneGhost=alive.every(p=>p.hand.length===1&&jokerCards(p).length===1);
+ if(!bothOnlyOneGhost)return null;
+ return alive.find(p=>jokerCards(p)[0].jokerType==='red')||null;
+}
+function advanceTurnIfNeeded(){let p=state.players[state.turn];if(!p||p.safe||p.lost||p.hand.length===0){let j=nextAliveFrom(state.turn,1);if(j>=0)state.turn=j}}
+async function handleDoubleJoker(p){render();if(p===state.players[0]){showDoubleChoice(p)}else{busy=true;await sleep(aiDelay+Math.random()*600);await aiDoubleChoice(p);busy=false;await processState('AI分送雙鬼')}}
+function eligibleTargets(){return state.players.filter(x=>!x.safe&&!x.lost&&x.hand.length>0)}
+function showDoubleChoice(p){state.waiting=true;busy=true;render();$('choice').classList.add('show');$('choiceTitle').textContent='雙鬼在手：立刻分送';$('choiceBody').innerHTML=`<div class="note">你同時擁有兩張鬼牌，必須立刻指定兩個不同目標。目標可以包含自己，但不能兩張都給同一人。</div><div id="targetArea"></div>`;chooseTwoTargetsUI(p)}
+function chooseTwoTargetsUI(p){let targets=eligibleTargets();let area=$('targetArea');area.innerHTML='<h2>選擇明鬼牌目標</h2><div class="targetGrid">'+targets.map((t,i)=>`<div class="target" data-i="${i}">${t.name}<br>${t===p?'自己保留':'交給對方'}</div>`).join('')+'</div>';area.querySelectorAll('.target').forEach(el=>el.onclick=()=>{let redTarget=targets[+el.dataset.i];let targets2=targets.filter(t=>t!==redTarget);area.innerHTML='<h2>選擇暗鬼牌目標</h2><div class="targetGrid">'+targets2.map((t,i)=>`<div class="target" data-i="${i}">${t.name}<br>${t===p?'自己保留':'交給對方'}</div>`).join('')+'</div>';area.querySelectorAll('.target').forEach(el2=>el2.onclick=async()=>{let blackTarget=targets2[+el2.dataset.i];await executeJokerDistribution(p,{red:redTarget,black:blackTarget});closeChoice();busy=false;await processState('玩家分送雙鬼')})})}
+async function aiDoubleChoice(p){let targets=eligibleTargets();let keepBlack=Math.random()<0.7;let others=targets.filter(t=>t!==p);let redTarget,blackTarget;if(keepBlack&&others.length){redTarget=others[Math.floor(Math.random()*others.length)];blackTarget=p}else{redTarget=targets[Math.floor(Math.random()*targets.length)];let rest=targets.filter(t=>t!==redTarget);blackTarget=rest[Math.floor(Math.random()*rest.length)]}await executeJokerDistribution(p,{red:redTarget,black:blackTarget})}
+async function executeJokerDistribution(from,map){let redT=map.red,blackT=map.black;let beforeActive=activePlayers().length;let next=state.players[nextAliveFrom(state.players.indexOf(from),1)];msg('鬼牌分送中...');if(state.waiting){$('choiceTitle').textContent='鬼牌分送中...';$('choiceBody').innerHTML='<div class="note" style="text-align:center;font-size:28px">鬼牌分送中...</div>';}transferJoker(from,redT,'red');transferJoker(from,blackT,'black');let names=[];names.push(redT===from?`${from.name} 保留一張鬼牌`:`${from.name} 分送一張鬼牌給 ${redT.name}`);names.push(blackT===from?`${from.name} 保留一張鬼牌`:`${from.name} 分送一張鬼牌給 ${blackT.name}`);log(names.join('；'),'hot');let kept=(redT===from||blackT===from),gaveNext=(redT===next||blackT===next);if(beforeActive===3&&kept&&gaveNext&&from.hand.length===1){state.pendingPit={setter:from,victim:next};}let owners=[redT,blackT];await showClownOwners(owners);let ni=nextAliveFrom(state.players.indexOf(from),1);if(ni>=0)state.turn=ni}
+function transferJoker(from,to,type){let c=from.hand.find(x=>x.joker&&x.jokerType===type);if(!c)return;removeCard(from,c);to.hand.push(c);shuffle(to.hand)}
+async function showClownOwners(owners){render();let unique=[];owners.forEach(o=>{if(!unique.includes(o))unique.push(o)});let els=[];unique.forEach(o=>{let pos=playerCenter(o);let div=document.createElement('div');div.className='clownFx';div.style.left=pos.x+'px';div.style.top=pos.y+'px';div.innerHTML=`<div class="face">🤡</div><div class="txt">小丑在笑</div>`;$('game').appendChild(div);els.push(div)});await sleep(2000);els.forEach(e=>e.remove())}
+function playerCenter(p){let el=document.querySelector(`[data-player="${state.players.indexOf(p)}"]`);if(!el)return {x:960,y:540};let r=el.getBoundingClientRect(),g=$('game').getBoundingClientRect();return {x:r.left-g.left+r.width/2,y:r.top-g.top+r.height/2}}
+function closeChoice(){$('choice').classList.remove('show');if(state)state.waiting=false}
+async function humanDrawFrom(targetIdx,cardIdx){if(busy||!state||state.ended||state.turn!==0||state.waiting)return;let player=state.players[0],target=state.players[targetIdx];let required=nextAliveFrom(0,-1);if(targetIdx!==required||!target||target.hand.length===0)return;busy=true;let card=target.hand.splice(cardIdx,1)[0];player.hand.push(card);state.lastDraw={drawer:player,target,card};log(`你從 ${target.name} 抽到一張牌。`);discardPairs(player);state.turn=nextAliveFrom(state.turn,1);busy=false;await processState('你抽牌')}
+async function aiTurn(){if(!state||state.ended||state.turn===0||busy||state.waiting)return;busy=true;let p=state.players[state.turn];let targetIdx=nextAliveFrom(state.turn,-1);let target=state.players[targetIdx];if(!p||!target){busy=false;return}msg(`${p.name} 思考中……`);render();await sleep(aiDelay+Math.random()*800);let idx=Math.floor(Math.random()*target.hand.length);let card=target.hand.splice(idx,1)[0];p.hand.push(card);state.lastDraw={drawer:p,target,card};log(`${p.name} 從 ${target.name} 抽走一張牌。`);discardPairs(p);state.turn=nextAliveFrom(state.turn,1);busy=false;await processState('AI抽牌')}
+async function runUntilHuman(){if(!state||state.ended)return;let guard=0;while(state&&!state.ended&&state.turn!==0&&!state.waiting&&guard++<100){await aiTurn();await sleep(120)}}
+async function autoEnd(){autoEnding=true;let guard=0;while(state&&!state.ended&&!state.waiting&&guard++<500){if(state.turn===0){let ti=nextAliveFrom(0,-1);let target=state.players[ti];if(!target)break;await sleep(260);await humanDrawFrom(ti,Math.floor(Math.random()*target.hand.length))}else await aiTurn();await sleep(80)}autoEnding=false;if(state&&!state.ended&&state.turn!==0)runUntilHuman()}
+async function endGame(loser,reason){if(state.ended)return;state.ended=true;if(loser)loser.lost=true;render();msg(`遊戲結束：${loser?loser.name:'無人'} 敗北`);log(`遊戲結束：${loser?loser.name:'無人'} 敗北。${reason||''}`,'danger');let winners=state.players.filter(p=>p!==loser);let showdown=state.players.map(p=>`<div style="margin:10px 0;padding:10px;border:1px solid rgba(232,201,111,.35);border-radius:12px"><b>${p.name}</b>：${p.hand.length?p.hand.map(cardText).join('　'):'無牌'}</div>`).join('');$('result').innerHTML=`<div class="note">${reason||'持鬼者敗。'}</div><br><div class="lose">敗方：${loser?loser.name:'-'}</div><div class="win">勝方：${winners.map(p=>p.name).join('、')}</div><hr style="border-color:rgba(232,201,111,.35)"><h2 style="color:#ffe27e">最終攤牌</h2>${showdown}`;$('modal').classList.add('show')}
+function closeModal(){$('modal').classList.remove('show')}
+function openHelp(){$('helpModal').classList.add('show')}
+function closeHelp(){$('helpModal').classList.remove('show')}
+function render(){if(!state)return;let duel=state.phase==='duel';$('phaseText').textContent=duel?'決鬥模式':'正常階段';$('centerSub').textContent=duel?'剩餘兩名玩家，雙鬼牌即刻判輸。':'鬼牌位置匿名，雙鬼入手立刻分送。';renderDiscardArea();renderSpots();renderMsg()}
+function renderDiscardArea(){let el=$('discardArea');if(!el||!state)return;let list=state.discardedPairs||[];el.innerHTML='<div class="discardTitle">棄牌區</div>'+list.slice(-24).map(x=>`<div class="discardCard">${x}</div>`).join('')}
+function layoutClasses(n){if(n===4)return ['p-bottom','p-left','p-top','p-right'];if(n===5)return ['p-bottom','p-lowerLeft','p-upperLeft','p-top','p-right'];if(n===6)return ['p-bottom','p-lowerLeft','p-upperLeft','p-top','p-upperRight','p-lowerRight'];return ['p-bottom','p-lowerLeft','p-left','p-upperLeft','p-top','p-upperRight','p-right']}
+function renderSpots(){let box=$('spots');box.innerHTML='';let n=state.players.length,classes=layoutClasses(n);let drawTargetIdx=state.turn===0?nextAliveFrom(0,-1):-1;state.players.forEach((p,i)=>{let spot=document.createElement('div');spot.dataset.player=i;spot.className='playerSpot '+classes[i]+(i===state.turn&&!state.ended?' active':'')+(p.safe?' safe':'')+(p.lost?' lost':'')+(i===0&&state.turn===0&&!state.ended?' selfTurn':'')+(i===drawTargetIdx&&state.turn===0&&!state.ended&&!busy&&!state.waiting?' drawTarget':'');spot.innerHTML=`<div class="pName"><span>${p.name}</span><span>${p.safe?'安全':p.lost?'敗北':i===state.turn?'回合':''}</span></div><div class="pInfo">手牌 ${p.hand.length}</div><div class="hand"></div>`;let hand=spot.querySelector('.hand');if(i===0||state.ended){p.hand.forEach(c=>hand.appendChild(cardEl(c)))}else{p.hand.forEach((c,idx)=>{let b=document.createElement('div');b.className='miniBack';let canDraw=state.turn===0&&drawTargetIdx===i&&!busy&&!state.waiting&&!state.ended;if(canDraw){b.classList.add('clickable');b.title='點擊抽這張';b.onclick=()=>humanDrawFrom(i,idx)}hand.appendChild(b)})}box.appendChild(spot)})}
+function cardEl(c){let d=document.createElement('div');d.className='card '+(c.red?'red ':'')+(c.joker?(c.jokerType==='red'?'jokerRed':'jokerBlack'):'');if(c.joker)d.innerHTML=`<div></div><div class="ghostFace">🤡</div><div class="tag">${c.jokerType==='red'?'明鬼':'暗鬼'}</div>`;else d.innerHTML=`<div class="rank">${c.rank}</div><div class="suit">${c.mark}</div><div></div>`;return d}
+function renderMsg(){if(state.ended)return msg('遊戲結束。');if(state.waiting)return msg('請立刻分送雙鬼牌。');if(state.turn===0){let t=state.players[nextAliveFrom(0,-1)];return msg(`輪到你：請抽 ${t?t.name:'上家'} 的手牌。`)}msg(`${state.players[state.turn].name} 思考中……`)}
+function msg(t){$('message').textContent=t}function clearLog(){$('log').innerHTML=''}function log(t,cls=''){let d=document.createElement('div');d.className=cls;d.textContent=t;$('log').prepend(d)}
+</script>
+</body></html>
